@@ -1,4 +1,4 @@
-FROM runpod/worker-comfyui:latest
+FROM runpod/worker-comfyui:5.7.1-base-cuda12.8.1
 
 WORKDIR /app
 
