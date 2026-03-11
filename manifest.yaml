@@ -1,0 +1,51 @@
+worker:
+  name: filmforge-stills-worker
+  version: 0.2.0
+
+comfy:
+  base_url: http://127.0.0.1:8188
+  models_dir: /workspace/ComfyUI/models
+
+models:
+  required_files:
+    - unet/flux2_dev_fp8mixed.safetensors
+    - vae/flux2-vae.safetensors
+    - clip/mistral_3_small_flux2_bf16.safetensors
+
+workflows:
+  flux2_text:
+    file: workflows/flux2_stills.json
+    required_nodes:
+      - BasicGuider
+      - CLIPLoader
+      - CLIPTextEncode
+      - EmptyFlux2LatentImage
+      - Flux2Scheduler
+      - FluxGuidance
+      - KSamplerSelect
+      - RandomNoise
+      - SamplerCustomAdvanced
+      - SaveImage
+      - UNETLoader
+      - VAEDecode
+      - VAELoader
+  flux2_ref:
+    file: workflows/flux2_stills_ref.json
+    required_nodes:
+      - BasicGuider
+      - CLIPLoader
+      - CLIPTextEncode
+      - EmptyFlux2LatentImage
+      - Flux2Scheduler
+      - FluxGuidance
+      - ImageScaleToTotalPixels
+      - KSamplerSelect
+      - LoadImage
+      - RandomNoise
+      - ReferenceLatent
+      - SamplerCustomAdvanced
+      - SaveImage
+      - UNETLoader
+      - VAEEncode
+      - VAEDecode
+      - VAELoader
