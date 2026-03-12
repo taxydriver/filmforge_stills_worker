@@ -13,7 +13,7 @@ from flux2_ref import patch_flux2_ref_workflow
 from flux2_text import patch_flux2_text_workflow
 from output_parser import extract_first_image_artifact
 from preflight import run_startup_preflight
-from requests import StillRequest
+from still_requests import StillRequest
 from runtime import ComfyRuntime
 from workflow_registry import load_workflow_template, workflow_filename
 

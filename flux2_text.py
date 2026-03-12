@@ -3,7 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any, Dict, Tuple
 
-from requests import StillRequest
+from still_requests import StillRequest
 
 
 def patch_flux2_text_workflow(
