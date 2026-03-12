@@ -8,5 +8,12 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 COPY . /app
 
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+ENV COMFY_MODELS_DIR=/runpod-volume/models
 
-CMD ["python", "-u", "handler.py"]
+# Keep worker-comfyui's startup flow so ComfyUI starts before RunPod handler.
+# start.sh invokes `python -u /handler.py`, so we overwrite /handler.py
+# with FilmForge's still-worker handler.
+RUN cp /app/handler.py /handler.py
+
+CMD ["/start.sh"]

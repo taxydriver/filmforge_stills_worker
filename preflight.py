@@ -14,7 +14,7 @@ from workflow_registry import (
 
 
 def _models_dir() -> Path:
-    return Path(os.getenv("COMFY_MODELS_DIR") or "/workspace/ComfyUI/models")
+    return Path(os.getenv("COMFY_MODELS_DIR") or "/runpod-volume/models")
 
 
 def run_startup_preflight(runtime: ComfyRuntime) -> None:

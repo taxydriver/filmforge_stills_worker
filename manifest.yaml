@@ -4,7 +4,7 @@ worker:
 
 comfy:
   base_url: http://127.0.0.1:8188
-  models_dir: /workspace/ComfyUI/models
+  models_dir: /runpod-volume/models
 
 models:
   required_files:
