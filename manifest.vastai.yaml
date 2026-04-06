@@ -1,0 +1,62 @@
+# Vast.ai variant of manifest.yaml
+# Differences from manifest.yaml (RunPod):
+#   - models_dir: /workspace/ComfyUI/models  (was /runpod-volume/models)
+#   - required_files use Vast/ComfyUI-native subdirectory names:
+#       diffusion_models/ for UNet  (was unet/)
+#       text_encoders/   for CLIP   (was clip/)
+#       vae/             unchanged
+#
+# The Dockerfile.vastai copies this file over manifest.yaml so that
+# workflow_registry.py and preflight.py pick up the correct paths.
+
+worker:
+  name: filmforge-stills-vastai
+  version: 0.3.0
+
+comfy:
+  base_url: http://127.0.0.1:8188
+  models_dir: /workspace/ComfyUI/models
+
+models:
+  required_files:
+    - diffusion_models/flux2_dev_fp8mixed.safetensors
+    - vae/flux2-vae.safetensors
+    - text_encoders/mistral_3_small_flux2_bf16.safetensors
+
+workflows:
+  flux2_text:
+    file: workflows/flux2_stills.json
+    required_nodes:
+      - BasicGuider
+      - CLIPLoader
+      - CLIPTextEncode
+      - EmptyFlux2LatentImage
+      - Flux2Scheduler
+      - FluxGuidance
+      - KSamplerSelect
+      - RandomNoise
+      - SamplerCustomAdvanced
+      - SaveImage
+      - UNETLoader
+      - VAEDecode
+      - VAELoader
+  flux2_ref:
+    file: workflows/flux2_stills_ref.json
+    required_nodes:
+      - BasicGuider
+      - CLIPLoader
+      - CLIPTextEncode
+      - EmptyFlux2LatentImage
+      - Flux2Scheduler
+      - FluxGuidance
+      - ImageScaleToTotalPixels
+      - KSamplerSelect
+      - LoadImage
+      - RandomNoise
+      - ReferenceLatent
+      - SamplerCustomAdvanced
+      - SaveImage
+      - UNETLoader
+      - VAEDecode
+      - VAEEncode
+      - VAELoader
