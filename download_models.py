@@ -9,8 +9,8 @@ Model URLs sourced from gpu_worker/asset_registry.py (same files, proven to work
 from __future__ import annotations
 
 import os
+import subprocess
 import sys
-import urllib.request
 from pathlib import Path
 
 _MODELS_DIR = os.getenv("COMFY_MODELS_DIR", "/workspace/models")
@@ -36,25 +36,21 @@ MODELS = [
 
 def _download(name: str, url: str, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
-    tmp = dest.with_suffix(".part")
     print(f"[download_models] Downloading {name}…", flush=True)
-
-    def _progress(block_num: int, block_size: int, total_size: int) -> None:
-        downloaded = block_num * block_size
-        if total_size > 0:
-            pct = min(100.0, downloaded * 100.0 / total_size)
-            gb = downloaded / 1e9
-            total_gb = total_size / 1e9
-            print(f"\r  {pct:.1f}%  {gb:.2f}/{total_gb:.2f} GB", end="", flush=True)
-
-    try:
-        urllib.request.urlretrieve(url, tmp, reporthook=_progress)
-    except Exception as exc:
-        tmp.unlink(missing_ok=True)
-        raise RuntimeError(f"Failed to download {name}: {exc}") from exc
-
-    print()  # newline after progress
-    tmp.rename(dest)
+    cmd = [
+        "wget",
+        "-c",                    # resume if partial file exists
+        "--progress=dot:giga",   # log-friendly: one line per 1GB
+        "--tries=5",
+        "--waitretry=10",
+        "--timeout=60",
+        "-O", str(dest),
+        url,
+    ]
+    result = subprocess.run(cmd)
+    if result.returncode != 0 or not dest.exists() or dest.stat().st_size == 0:
+        dest.unlink(missing_ok=True)
+        raise RuntimeError(f"Failed to download {name}")
     size_gb = dest.stat().st_size / 1e9
     print(f"[download_models] Done: {dest.name} ({size_gb:.2f} GB)", flush=True)
 
