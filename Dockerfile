@@ -16,4 +16,7 @@ ENV COMFY_MODELS_DIR=/workspace/models
 # with FilmForge's still-worker handler.
 RUN cp /app/handler.py /handler.py
 
-CMD ["/start.sh"]
+COPY start_filmforge.sh /start_filmforge.sh
+RUN chmod +x /start_filmforge.sh
+
+CMD ["/start_filmforge.sh"]
