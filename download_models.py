@@ -37,16 +37,19 @@ MODELS = [
 def _download(name: str, url: str, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     print(f"[download_models] Downloading {name}…", flush=True)
+    hf_token = os.getenv("HF_TOKEN", "")
     cmd = [
         "wget",
         "-c",                    # resume if partial file exists
         "--progress=dot:giga",   # log-friendly: one line per 1GB
         "--tries=5",
         "--waitretry=10",
-        "--timeout=60",
+        "--timeout=120",
         "-O", str(dest),
-        url,
     ]
+    if hf_token:
+        cmd += [f"--header=Authorization: Bearer {hf_token}"]
+    cmd.append(url)
     result = subprocess.run(cmd)
     if result.returncode != 0 or not dest.exists() or dest.stat().st_size == 0:
         dest.unlink(missing_ok=True)
