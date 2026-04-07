@@ -4,13 +4,13 @@ worker:
 
 comfy:
   base_url: http://127.0.0.1:8188
-  models_dir: /workspace/models
+  models_dir: /comfyui/models
 
 models:
   required_files:
-    - unet/flux2_dev_fp8mixed.safetensors
+    - diffusion_models/flux2_dev_fp8mixed.safetensors
     - vae/flux2-vae.safetensors
-    - clip/mistral_3_small_flux2_bf16.safetensors
+    - text_encoders/mistral_3_small_flux2_bf16.safetensors
 
 workflows:
   flux2_text:

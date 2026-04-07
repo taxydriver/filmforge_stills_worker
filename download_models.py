@@ -13,7 +13,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-_MODELS_DIR = os.getenv("COMFY_MODELS_DIR", "/workspace/models")
+_MODELS_DIR = os.getenv("COMFY_MODELS_DIR", "/comfyui/models")
 
 MODELS = [
     {
@@ -23,12 +23,12 @@ MODELS = [
     },
     {
         "name": "flux2_dev_fp8mixed (UNet)",
-        "path": f"{_MODELS_DIR}/unet/flux2_dev_fp8mixed.safetensors",
+        "path": f"{_MODELS_DIR}/diffusion_models/flux2_dev_fp8mixed.safetensors",
         "url": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/diffusion_models/flux2_dev_fp8mixed.safetensors",
     },
     {
         "name": "mistral_3_small_flux2_bf16 (CLIP)",
-        "path": f"{_MODELS_DIR}/clip/mistral_3_small_flux2_bf16.safetensors",
+        "path": f"{_MODELS_DIR}/text_encoders/mistral_3_small_flux2_bf16.safetensors",
         "url": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/text_encoders/mistral_3_small_flux2_bf16.safetensors",
     },
 ]

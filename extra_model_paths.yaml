@@ -1,0 +1,7 @@
+filmforge:
+    base_path: /workspace/models/
+    unet: unet
+    vae: vae
+    clip: clip
+    checkpoints: checkpoints
+    loras: loras

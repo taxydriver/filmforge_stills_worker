@@ -9,7 +9,7 @@ COPY . /app
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
-ENV COMFY_MODELS_DIR=/workspace/models
+ENV COMFY_MODELS_DIR=/comfyui/models
 
 # Keep worker-comfyui's startup flow so ComfyUI starts before RunPod handler.
 # start.sh invokes `python -u /handler.py`, so we overwrite /handler.py
