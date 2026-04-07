@@ -9,6 +9,7 @@ from typing import Any, Dict
 import runpod
 from pydantic import ValidationError
 
+from download_models import main as download_models
 from flux2_ref import patch_flux2_ref_workflow
 from flux2_text import patch_flux2_text_workflow
 from output_parser import extract_first_image_artifact
@@ -21,6 +22,8 @@ RUNTIME = ComfyRuntime()
 
 
 def _startup_preflight() -> None:
+    print("[startup] downloading models if needed…", flush=True)
+    download_models()
     print("[startup] running preflight", flush=True)
     run_startup_preflight(RUNTIME)
 

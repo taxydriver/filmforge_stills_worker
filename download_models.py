@@ -1,31 +1,34 @@
 """
 Download FLUX2 model files from HuggingFace if not already present.
 
-Called by start_vastai.sh before ComfyUI starts.
-Skipped automatically for files that already exist (network volume scenario).
+Paths are resolved from COMFY_MODELS_DIR env var (default: /workspace/models).
+Skipped automatically for files that already exist.
 
 Model URLs sourced from gpu_worker/asset_registry.py (same files, proven to work).
 """
 from __future__ import annotations
 
+import os
 import sys
 import urllib.request
 from pathlib import Path
 
+_MODELS_DIR = os.getenv("COMFY_MODELS_DIR", "/workspace/models")
+
 MODELS = [
     {
         "name": "flux2-vae",
-        "path": "/workspace/ComfyUI/models/vae/flux2-vae.safetensors",
+        "path": f"{_MODELS_DIR}/vae/flux2-vae.safetensors",
         "url": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/vae/flux2-vae.safetensors",
     },
     {
         "name": "flux2_dev_fp8mixed (UNet)",
-        "path": "/workspace/ComfyUI/models/diffusion_models/flux2_dev_fp8mixed.safetensors",
+        "path": f"{_MODELS_DIR}/unet/flux2_dev_fp8mixed.safetensors",
         "url": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/diffusion_models/flux2_dev_fp8mixed.safetensors",
     },
     {
         "name": "mistral_3_small_flux2_bf16 (CLIP)",
-        "path": "/workspace/ComfyUI/models/text_encoders/mistral_3_small_flux2_bf16.safetensors",
+        "path": f"{_MODELS_DIR}/clip/mistral_3_small_flux2_bf16.safetensors",
         "url": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/text_encoders/mistral_3_small_flux2_bf16.safetensors",
     },
 ]
