@@ -32,7 +32,10 @@ def patch_flux2_text_workflow(
         class_type = node.get("class_type")
 
         if class_type == "CLIPTextEncode" and "text" in inputs:
-            inputs["text"] = request.prompt
+            if request.negative_prompt:
+                inputs["text"] = f"{request.prompt}. Avoid: {request.negative_prompt}."
+            else:
+                inputs["text"] = request.prompt
             patched["prompt"].append(str(node_id))
 
         if class_type == "SaveImage" and "filename_prefix" in inputs:
